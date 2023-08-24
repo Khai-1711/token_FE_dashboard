@@ -21,30 +21,26 @@ function App() {
   });
   useEffect(() => {}, []);
   return (
-    <div className='bg-[#141828]'>
-      <Header />
-      <div className='flex'>
-        <div>
-          <Info
-            price={data.price}
-            change={data.change}
-            max={data.max}
-            min={data.min}
-            numberOfTransfer={data.numberOfTransfer}
-          />
-          <Filter />
-          <Chart />
-          <TaskResponse />
-        </div>
-        <div>
-          <div className='flex'>
-            <CoinTable data={fakeData} latestPriceData={latestPriceData} />
-            <Transfer />
+
+      <div className='bg-[#141828]'>
+        <Header />
+        <div className='flex'>
+          <div className='w-[64%]'>
+            <Info price={data.price} change={data.change} max={data.max} min={data.min} numberOfTransfer={data.numberOfTransfer} />
+            <Filter />
+            <Chart />
+            <TaskResponse />
           </div>
-          <TradingMarket />
+          <div className='w-[36%]'>
+            <div className='flex'>
+              <CoinTable data={fakeData} latestPriceData={latestPriceData} />
+              <Transfer/>
+            </div>
+            <TradingMarket />
+          </div>
         </div>
       </div>
-    </div>
+
   );
 }
 
