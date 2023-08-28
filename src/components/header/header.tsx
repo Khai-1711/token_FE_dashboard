@@ -3,20 +3,21 @@ import { formatNumber } from '@/utils/shortenAddress';
 import Tokenlogo from '@/assets/images/VNSToken.png';
 import { useState } from 'react';
 import RegisterForm from './register';
+import LoginForm from './loginForm';
 
 function Header() {
   const currentAccount = '0x00';
   const [isLogin, setIsLogin] = useState(false);
   const [showRegisterBox, setShowRegisterBox] = useState(false);
-
-  const handleClick = () => {
-    setIsLogin(true);
-  };
   const handleClickRegister = () => {
     setShowRegisterBox(true);
   };
+  const handleClickLogin = () => {
+    setIsLogin(true);
+  };
   const handleCloseClick = () => {
     setShowRegisterBox(false);
+    setIsLogin(false);
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return (
@@ -46,6 +47,8 @@ function Header() {
         <nav>
           <ul className='flex ml-100 space-x-7 w-[100%]'>
             <div>
+              {isLogin && <LoginForm onClose={handleCloseClick} />}
+              {showRegisterBox && <RegisterForm onClose={handleCloseClick} />}
               {isLogin ? (
                 <div className='flex'>
                   <div className='p-2 items-center text-[#c9d9e0] flex border-r-[1px] border-gray-400 border-solid'>
@@ -75,10 +78,10 @@ function Header() {
                   >
                     Đăng Kí
                   </button>
-                  {showRegisterBox && <RegisterForm onClose={handleCloseClick} />}
+
                   <button
                     type='button'
-                    onClick={handleClick}
+                    onClick={handleClickLogin}
                     className='w-[50%]  px-3 py-1 rounded bg-[#0056bf] hover:text-gray-400 text-sm text-[#E5D9CE] mr-3'
                   >
                     Đăng Nhập
