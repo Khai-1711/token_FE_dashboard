@@ -2,8 +2,9 @@ import { shortenAddress, shortenBalance } from '@/utils/shortenAddress';
 import { formatNumber } from '@/utils/shortenAddress';
 import Tokenlogo from '@/assets/images/VNSToken.png';
 import { useState } from 'react';
-import RegisterForm from './register';
-import LoginForm from './loginForm';
+import RegisterForm from '../signForm/register';
+import LoginForm from '../loginForm/loginForm';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const currentAccount = '0x00';
@@ -14,7 +15,6 @@ function Header() {
     setShowRegisterBox(true);
   };
   const handleClickLogin = () => {
-    // setIsLogin(true);
     setShowLoginBox(true);
   };
   const handleCloseRegister = () => {
@@ -77,13 +77,14 @@ function Header() {
                 </div>
               ) : (
                 <div className='flex justify-end items-center w-[100%] mr-10'>
-                  <button
+                  <Link
+                    to='/SignUp'
                     type='button'
                     onClick={handleClickRegister}
                     className='w-[50%] h-[20%] px-3 py-1 rounded bg-[#222940] hover:text-gray-400 text-sm text-[#E5D9CE] mr-2'
                   >
                     Đăng Kí
-                  </button>
+                  </Link>
 
                   <button
                     type='button'

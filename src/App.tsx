@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Chart, Filter, Header, Info, TradingMarket, Transfer, TaskResponse } from './components';
+import {
+  Chart,
+  Filter,
+  Header,
+  Info,
+  TradingMarket,
+  Transfer,
+  TaskResponse,
+  LoginForm,
+  SignUpForm,
+} from './components';
 import CoinTable from './components/historyCost';
 import { fakeData, latestPriceData } from './utils/fakeData';
 import coin from '@/api/bitcoin.json';
@@ -12,6 +22,15 @@ interface InfoProps {
 }
 
 function App() {
+  const [showRegisterBox, setShowRegisterBox] = useState(false);
+  const [showLogInBox, setShowLogInBox] = useState(false);
+
+  const handleCloseLogin = () => {
+    setShowLogInBox(false);
+  };
+  const handleCloseRegister = () => {
+    setShowRegisterBox(false);
+  };
   const [data] = useState<InfoProps>({
     price: 21323,
     change: coin.market_data.price_change_percentage_24h,
@@ -21,26 +40,32 @@ function App() {
   });
   useEffect(() => {}, []);
   return (
-
-      <div className='bg-[#141828]'>
-        <Header />
-        <div className='flex'>
-          <div className='w-[64%]'>
-            <Info price={data.price} change={data.change} max={data.max} min={data.min} numberOfTransfer={data.numberOfTransfer} />
-            <Filter />
-            <Chart />
-            <TaskResponse />
+    <div className='bg-[#141828]'>
+      <SignUpForm onClose={handleCloseRegister} />
+      <LoginForm onClose={handleCloseLogin} />
+      <Header />
+      <div className='flex'>
+        <div className='w-[64%]'>
+          <Info
+            price={data.price}
+            change={data.change}
+            max={data.max}
+            min={data.min}
+            numberOfTransfer={data.numberOfTransfer}
+          />
+          <Filter />
+          <Chart />
+          <TaskResponse />
+        </div>
+        <div className='w-[36%]'>
+          <div className='flex'>
+            <CoinTable data={fakeData} latestPriceData={latestPriceData} />
+            <Transfer />
           </div>
-          <div className='w-[36%]'>
-            <div className='flex'>
-              <CoinTable data={fakeData} latestPriceData={latestPriceData} />
-              <Transfer/>
-            </div>
-            <TradingMarket />
-          </div>
+          <TradingMarket />
         </div>
       </div>
-
+    </div>
   );
 }
 

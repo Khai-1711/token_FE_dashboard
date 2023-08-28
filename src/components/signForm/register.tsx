@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 interface RegisterFormProps {
   onClose: () => void;
 }
@@ -112,9 +112,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose }) => {
             >
               Thoát
             </button>
-            <button type='submit' className='px-3 py-1 bg-[#222940] hover:bg-gray-400 text-sm text-[#E5D9CE] rounded'>
+            <Link
+              to='/SignUp'
+              type='submit'
+              className='px-3 py-1 bg-[#222940] hover:bg-gray-400 text-sm text-[#E5D9CE] rounded'
+            >
               Đăng Kí
-            </button>
+            </Link>
           </div>
         </form>
       </div>

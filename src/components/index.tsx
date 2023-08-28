@@ -5,3 +5,5 @@ export { default as Header } from './header/header';
 export { default as Chart } from './chart/chart';
 export { default as TradingMarket } from './tradingMarket/tradingMarket';
 export { default as TaskResponse } from './taskResponse/taskResponse';
+export { default as LoginForm } from './loginForm/loginForm';
+export { default as SignUpForm } from './signForm/register';
