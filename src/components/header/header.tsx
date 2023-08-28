@@ -9,14 +9,20 @@ function Header() {
   const currentAccount = '0x00';
   const [isLogin, setIsLogin] = useState(false);
   const [showRegisterBox, setShowRegisterBox] = useState(false);
+  const [showLoginBox, setShowLoginBox] = useState(false);
   const handleClickRegister = () => {
     setShowRegisterBox(true);
   };
   const handleClickLogin = () => {
-    setIsLogin(true);
+    // setIsLogin(true);
+    setShowLoginBox(true);
   };
-  const handleCloseClick = () => {
+  const handleCloseRegister = () => {
     setShowRegisterBox(false);
+    setIsLogin(false);
+  };
+  const handleCloseLogin = () => {
+    setShowLoginBox(false);
     setIsLogin(false);
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -47,8 +53,8 @@ function Header() {
         <nav>
           <ul className='flex ml-100 space-x-7 w-[100%]'>
             <div>
-              {isLogin && <LoginForm onClose={handleCloseClick} />}
-              {showRegisterBox && <RegisterForm onClose={handleCloseClick} />}
+              {showLoginBox && <LoginForm onClose={handleCloseLogin} />}
+              {showRegisterBox && <RegisterForm onClose={handleCloseRegister} />}
               {isLogin ? (
                 <div className='flex'>
                   <div className='p-2 items-center text-[#c9d9e0] flex border-r-[1px] border-gray-400 border-solid'>

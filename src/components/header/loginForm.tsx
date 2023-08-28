@@ -1,15 +1,33 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
-interface RegisterFormProps {
+interface LoginFormProps {
   onClose: () => void;
 }
 
-const loginForm: React.FC<RegisterFormProps> = ({ onClose }) => {
-  const [email, setEmail] = useState('');
+const loginForm: React.FC<LoginFormProps> = ({ onClose }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [email, setEmail] = useState<string>('');
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [password, setPassword] = useState('');
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Xử lý dữ liệu form đăng kí
+    axios
+      .put<IUser>(`${process.env.REACT_APP_API_URL}/user`, {
+        userName: email,
+        password: password,
+      })
+      .then((response) => {
+        // Xử lý dữ liệu trả về tại đây
+        console.log('Đăng nhập thành công:', response.data);
+        alert('Đăng nhập thành công!');
+        onClose();
+      })
+      .catch((error) => {
+        // Xử lý lỗi nếu có
+        console.log('Đăng nhập không thành công:', error);
+        alert(`Đăng nhập không thành công: ${error}`);
+      });
   };
   return (
     <div className='fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50'>
@@ -19,9 +37,8 @@ const loginForm: React.FC<RegisterFormProps> = ({ onClose }) => {
             Email
           </label>
           <input
-            type='email'
             id='email'
-            className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
+            className='mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -34,7 +51,7 @@ const loginForm: React.FC<RegisterFormProps> = ({ onClose }) => {
           <input
             type='password'
             id='password'
-            className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
+            className='mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

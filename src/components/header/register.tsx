@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 interface RegisterFormProps {
@@ -8,11 +9,33 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [name, setName] = useState('');
+  const [confirm, setConfirm] = useState<boolean>(true);
 
-  const handleFormSubmit = (event: React.FormEvent) => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     // Xử lý dữ liệu form đăng kí
+    if (password !== confirmPassword) {
+      setConfirm(false);
+      alert('Password not match!');
+    } else {
+      axios
+        .post<IUser>(`${process.env.REACT_APP_API_URL}/user`, {
+          userName: email,
+          password: password,
+          name: name,
+        })
+        .then((response) => {
+          // Xử lý dữ liệu trả về tại đây
+          console.log('Đăng ký thành công:', response.data);
+          alert('Đăng ký thành công!');
+          onClose();
+        })
+        .catch((error) => {
+          // Xử lý lỗi nếu có
+          alert(`Đăng ký thất bại: ${error}`);
+        });
+    }
   };
 
   return (
@@ -33,7 +56,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose }) => {
             <input
               type='email'
               id='email'
-              className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
+              className='mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -46,7 +69,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose }) => {
             <input
               type='password'
               id='password'
-              className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
+              className='mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -59,22 +82,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onClose }) => {
             <input
               type='password'
               id='confirmPassword'
-              className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
+              className={`
+              mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300
+              ${!confirm && 'border-red-500'}
+              `}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
           </div>
           <div className='mb-4'>
-            <label htmlFor='phoneNumber' className='block text-sm font-medium text-gray-600'>
-              Số điện thoại
+            <label htmlFor='name' className='block text-sm font-medium text-gray-600'>
+              Tên
             </label>
             <input
               type='text'
-              id='phoneNumber'
-              className='mt-1 px-2 py-1 w-full rounded border-gray-300 focus:ring focus:ring-gray-200 focus:border-gray-300'
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              id='name'
+              className='mt-1 px-2 py-1 w-full rounded border-gray-300 border-2 border-solid focus:ring focus:ring-gray-200 focus:border-gray-300'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </div>
